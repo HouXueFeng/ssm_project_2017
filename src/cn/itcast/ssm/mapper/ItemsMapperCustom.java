@@ -6,6 +6,7 @@ import cn.itcast.ssm.po.ItemsCustom;
 import cn.itcast.ssm.po.ItemsQueryVo;
 
 public interface ItemsMapperCustom {
+	//商品列表查询
 	public List<ItemsCustom> findItemsList(ItemsQueryVo itemsQueryVo)throws Exception;
 	
 }

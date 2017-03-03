@@ -5,15 +5,8 @@ Byhouxuefeng
 */
 public class ItemsQueryVo {
 	//包装的po类
-	//把items商品信息包进去，还包入扩展类
 	private  ItemsCustom itemsCustom;
-	private Items items;
-	public Items getItems() {
-		return items;
-	}
-	public void setItems(Items items) {
-		this.items = items;
-	}
+	
 	public ItemsCustom getItemsCustom() {
 		return itemsCustom;
 	}
