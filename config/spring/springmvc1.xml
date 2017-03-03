@@ -45,7 +45,7 @@
 			</props>
 		</property>
 	</bean>
-	
+	<!-- 一般在开发中常常使用注解的开发方式 -->
 	<!--注解映射器 -->
 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
 	<!--注解适配器 -->
