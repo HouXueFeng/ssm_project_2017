@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.itcast.ssm.mapper.ItemsMapperCustom" >
- 
+<mapper namespace="cn.itcast.ssm.mapper.ItemsMapperCustom">
+	<!-- 第一个案例
+		//商品列表查询
+	 parameterType传入包装类型 resultType建议使用扩展类 -->
+	<sql id="query_item_where">
+		<if test="itemsCustom!=null">
+			<if test="itemsCustom.name!=null and itemCustom.name!=''">
+			items.name like '%${itemCustom.name}%'
+			</if>
+		</if>
+	</sql>
+	<select id="findItemsList" resultType="cn.itcast.ssm.po.ItemsCustom"
+		parameterType="cn.itcast.ssm.po.ItemsQueryVo">
+		select items.* from items
+		<where>
+			<include refid="query_item_where"></include>
+		</where>
+	</select>
 </mapper>
