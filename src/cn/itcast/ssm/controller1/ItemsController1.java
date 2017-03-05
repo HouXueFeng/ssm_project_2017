@@ -1,9 +1,11 @@
 package cn.itcast.ssm.controller1;
-
 import java.util.List;
+
+import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import cn.itcast.ssm.po.ItemsCustom;
 import cn.itcast.ssm.service.ItemsService;
@@ -13,6 +15,8 @@ import cn.itcast.ssm.service.ItemsService;
  */
 // 使用Controller标识 它是一个控制器
 @Controller
+@RequestMapping("/items")//进行窄化请求映射
+//为了对url进行分类管理，可以在这里定义根路径，最终访问的url是根路径+子路径。
 public class ItemsController1 {
 	// 通过注入的方式得到Service接口
 	@Autowired
@@ -32,7 +36,9 @@ public class ItemsController1 {
 		return modelAndView;
 	}
 
-	@RequestMapping("/editItems")
+//	@RequestMapping("/editItems")
+//限制http请求方式
+	@RequestMapping(value="/editItems",method={RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView editItems() throws Exception {
 		//根据id查询商品
 		ItemsCustom itemsCustom = itemsService.selectItemById(1);
