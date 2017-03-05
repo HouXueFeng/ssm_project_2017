@@ -1,11 +1,16 @@
 package cn.itcast.ssm.controller1;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.support.HttpRequestHandlerServlet;
 import org.springframework.web.servlet.ModelAndView;
 import cn.itcast.ssm.po.ItemsCustom;
 import cn.itcast.ssm.service.ItemsService;
@@ -21,10 +26,14 @@ public class ItemsController1 {
 	// 通过注入的方式得到Service接口
 	@Autowired
 	private ItemsService itemsService;
+//	------------------------------------------------------------
 
 	// 商品查询
 	@RequestMapping("/queryItems")
-	public ModelAndView queryItems() throws Exception {
+	public ModelAndView queryItems(HttpServletRequest request) throws Exception {
+		//可修改商品的进行数据共享，查看是否能够得到修改商品的id号
+		System.out.println(request.getParameter("id"));
+		
 		// 调用Service查找数据库，查询商品列表
 		List<ItemsCustom> itemsList = itemsService.findItemsList(null);
 
@@ -35,23 +44,65 @@ public class ItemsController1 {
 		modelAndView.setViewName("items/itemsList");
 		return modelAndView;
 	}
+//	------------------------------------------------------------
 
 //	@RequestMapping("/editItems")
 //限制http请求方式
+//	@RequestMapping(value="/editItems",method={RequestMethod.GET,RequestMethod.POST})
+//	public ModelAndView editItems() throws Exception {
+//		//根据id查询商品
+//		ItemsCustom itemsCustom = itemsService.selectItemById(1);
+//		ModelAndView modelAndView = new ModelAndView();
+//		//将商品信息放到model中
+//		modelAndView.addObject("itemsCustom", itemsCustom);
+//		//商品修改页面
+//		modelAndView.setViewName("items/editItems");
+//		return modelAndView;
+//	}
+//	------------------------------------------------------------
+
 	@RequestMapping(value="/editItems",method={RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView editItems() throws Exception {
+	public String editItems(Model model) throws Exception {
 		//根据id查询商品
 		ItemsCustom itemsCustom = itemsService.selectItemById(1);
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("itemsCustom", itemsCustom);
-		modelAndView.setViewName("items/editItems");
-		return modelAndView;
+		//通过形式参数中的model将model数据传到页面
+		//addAttribute（）相当于modelAndView.addObject（）方法
+		model.addAttribute("itemsCustom", itemsCustom);
+		return "items/editItems";
+	}
+	
+//	------------------------------------------------------------
+	//controller返回ModelAndView类型
+//	@RequestMapping("/editItemsSubmit")
+//	public ModelAndView editItemsSubmit() throws Exception {
+//		ModelAndView andView = new ModelAndView();
+//		andView.setViewName("success");
+//		return andView;
+//	}
+//	controller返回String类型
+//	@RequestMapping("/editItemsSubmit")
+//	public String editItemsSubmit() throws Exception {
+//		//因为不用传递数据所以直接返回页面
+//		return "success";
+//	}
+	
+//	------------------------------------------------------------
+//	进行修改信息之后的重定向
+//	@RequestMapping("/editItemsSubmit")
+//	public String editItemsSubmit() throws Exception {
+//		//因为不用传递数据所以直接返回页面
+//		//进行重定向redirect（不能进行数据共享）
+//		//（使用重定向的方式可以在提交修改后直接返回查询商品列表的页面（查看是否修改成功查看当前数据））
+//		return "redirect:queryItems.action";
+//	}
+	@RequestMapping("/editItemsSubmit")
+	public String editItemsSubmit(HttpServletRequest request) throws Exception {
+		//因为不用传递数据所以直接返回页面
+		//进行重定向forward（可以进行数据共享）
+		//（使用servlet请求转发的方式（HttpServletRequest 
+		//request传入request域给查询商品的页面查看是否数据共享）
+		//这里不能写/items的原因是在同一个controller中
+		return "forward:queryItems.action";
 	}
 
-	@RequestMapping("/editItemsSubmit")
-	public ModelAndView editItemsSubmit() throws Exception {
-		ModelAndView andView = new ModelAndView();
-		andView.setViewName("success");
-		return andView;
-	}
 }
