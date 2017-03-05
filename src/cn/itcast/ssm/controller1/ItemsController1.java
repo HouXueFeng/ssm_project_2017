@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.support.HttpRequestHandlerServlet;
 import org.springframework.web.servlet.ModelAndView;
 import cn.itcast.ssm.po.ItemsCustom;
@@ -60,11 +61,12 @@ public class ItemsController1 {
 //		return modelAndView;
 //	}
 //	------------------------------------------------------------
-
+	//使用参数绑定简单类型,使用@RequestParam进行参数绑定
+	//注意：@RequestParam里面的指定request传入参数和形参item_id进行绑定
 	@RequestMapping(value="/editItems",method={RequestMethod.GET,RequestMethod.POST})
-	public String editItems(Model model) throws Exception {
+	public String editItems(Model model,@RequestParam(value="id",required=true) Integer items_id) throws Exception {
 		//根据id查询商品
-		ItemsCustom itemsCustom = itemsService.selectItemById(1);
+		ItemsCustom itemsCustom = itemsService.selectItemById(items_id);
 		//通过形式参数中的model将model数据传到页面
 		//addAttribute（）相当于modelAndView.addObject（）方法
 		model.addAttribute("itemsCustom", itemsCustom);
