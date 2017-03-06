@@ -20,15 +20,28 @@
 	<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/> -->
 	<!--注解适配器 -->
 	<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHan
-dlerAdapter"/> -->
-<!-- 使用 mvc:annotation-driven标签可以代替上面注解映射器和注解适配器的配置
-比如json解析器就默认加载了-->
-<mvc:annotation-driven></mvc:annotation-driven>
-<!--配置视图解析器  -->
-<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-<!--配置jsp路径的前缀  -->
-<property name="prefix" value="/WEB-INF/jsp/"/>
-<!-- 配置jsp路径的后缀 -->
-<property name="suffix" value=".jsp"/>
-</bean>
-</beans>
+		dlerAdapter"/> -->
+		<!-- 使用 mvc:annotation-driven标签可以代替上面注解映射器和注解适配器的配置
+		比如json解析器就默认加载了-->
+		<mvc:annotation-driven conversion-service="conversionService"></mvc:annotation-driven>
+		
+		
+		<!--配置视图解析器  -->
+		<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!--配置jsp路径的前缀  -->
+		<property name="prefix" value="/WEB-INF/jsp/"/>
+		<!-- 配置jsp路径的后缀 -->
+		<property name="suffix" value=".jsp"/>
+		</bean>
+		<!-- 自定义类型的参数绑定 -->
+		<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<!-- 转换器 -->
+		<property name="converters">
+		<list>
+		<!-- 日期类型的转换器 -->
+		<bean class="cn.itcast.ssm.controller.converter.CustomDateConverter"/>
+		</list>
+		</property>
+		</bean>
+		
+		</beans>

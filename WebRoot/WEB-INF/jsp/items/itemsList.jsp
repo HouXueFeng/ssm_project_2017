@@ -13,7 +13,7 @@
 查询条件：
 <table width="100%" border=1>
 <tr>
-<td><input type="submit" value="查询"/></td>
+<td><input type="text" name="byname" value="请输入商品名称"><input type="submit" value="查询" /></td>
 </tr>
 </table>
 商品列表：

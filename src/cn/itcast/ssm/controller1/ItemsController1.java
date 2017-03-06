@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.support.HttpRequestHandlerServlet;
 import org.springframework.web.servlet.ModelAndView;
 import cn.itcast.ssm.po.ItemsCustom;
+import cn.itcast.ssm.po.ItemsQueryVo;
 import cn.itcast.ssm.service.ItemsService;
 
 /**
@@ -32,12 +33,12 @@ public class ItemsController1 {
 
 	// 商品查询
 	@RequestMapping("/queryItems")
-	public ModelAndView queryItems(HttpServletRequest request) throws Exception {
+	public ModelAndView queryItems(HttpServletRequest request,ItemsQueryVo itemsQueryVo) throws Exception {
 		//可修改商品的进行数据共享，查看是否能够得到修改商品的id号
 		System.out.println(request.getParameter("id"));
-		
+	
 		// 调用Service查找数据库，查询商品列表
-		List<ItemsCustom> itemsList = itemsService.findItemsList(null);
+		List<ItemsCustom> itemsList = itemsService.findItemsList(itemsQueryVo);
 
 		ModelAndView modelAndView = new ModelAndView();
 		// 相当于requset的setAttribute，在jsp页面中通过itemList取数据
