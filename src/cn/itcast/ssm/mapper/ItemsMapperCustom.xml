@@ -7,7 +7,7 @@
 	<sql id="query_item_where">
 		<if test="itemsCustom!=null">
 			<if test="itemsCustom.name!=null and itemsCustom.name!=''">
-			items.name like '%${itemCustom.name}%'
+			items.name like '%${itemsCustom.name}%'
 			</if>
 		</if>
 	</sql>
