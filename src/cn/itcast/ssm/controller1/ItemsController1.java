@@ -1,4 +1,5 @@
 package cn.itcast.ssm.controller1;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -97,14 +98,19 @@ public class ItemsController1 {
 //		//（使用重定向的方式可以在提交修改后直接返回查询商品列表的页面（查看是否修改成功查看当前数据））
 //		return "redirect:queryItems.action";
 //	}
+
+	//进行页面修改后的提交传入pojo（参数绑定pojo）
 	@RequestMapping("/editItemsSubmit")
-	public String editItemsSubmit(HttpServletRequest request) throws Exception {
+	public String editItemsSubmit(HttpServletRequest request,Integer id,ItemsCustom itemsCustom) throws Exception {
+		
+		//进行页面修改itemsCustom中传入了商品属性
+		itemsService.updateItems(id, itemsCustom);
 		//因为不用传递数据所以直接返回页面
 		//进行重定向forward（可以进行数据共享）
 		//（使用servlet请求转发的方式（HttpServletRequest 
 		//request传入request域给查询商品的页面查看是否数据共享）
 		//这里不能写/items的原因是在同一个controller中
-		return "forward:queryItems.action";
+		return "success";
 	}
 
 }
