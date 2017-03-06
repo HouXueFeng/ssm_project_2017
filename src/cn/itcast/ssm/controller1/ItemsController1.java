@@ -110,7 +110,7 @@ public class ItemsController1 {
 		//（使用servlet请求转发的方式（HttpServletRequest 
 		//request传入request域给查询商品的页面查看是否数据共享）
 		//这里不能写/items的原因是在同一个controller中
-		return "success";
+		return "forward:queryItems.action";
 	}
 
 }
