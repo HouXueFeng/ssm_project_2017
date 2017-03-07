@@ -15,5 +15,7 @@ public interface ItemsService {
 	public void updateItems(Integer id,ItemsCustom custom)throws Exception;
 	//进行商品的批量删除
 	public void deletedItems1(Integer[] items_id)throws Exception;
+	
+	
 
 }

@@ -1,4 +1,5 @@
 package cn.itcast.ssm.controller1;
+
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,12 +107,31 @@ public class ItemsController1 {
 
 		// ------------------------------------------------------------
 
-	}	
-	//因为checkbox是个多选框，所以可以进行批量删除操作傳入id數組
+	}
+
+	// 因为checkbox是个多选框，所以可以进行批量删除操作傳入id數組
 	// 批量删除商品
 	@RequestMapping("/deleteItems")
 	public String deleteItems(Integer[] items_id) throws Exception {
 		itemsService.deletedItems1(items_id);
+		return "success";
+	}
+
+	// 进行批量修改商品信息的展示页面（可修改的）
+	@RequestMapping("/editQueryItems")
+	public String editQueryItems(HttpServletRequest request, ItemsQueryVo itemsQueryVo, Model model) throws Exception {
+		// 调用Service查找数据库，查询商品列表
+		List<ItemsCustom> itemsList = itemsService.findItemsList(itemsQueryVo);
+		model.addAttribute("itemsList", itemsList);
+
+		return "items/editQueryItems";
+	}
+	
+	
+	@RequestMapping("/editQueryAllItems")
+	//将修改的信息存入ItemsQueryVo的list集合的Custom属性中
+	public String editQueryAllItems(ItemsQueryVo itemsQueryVo) throws Exception {
+		
 		return "success";
 	}
 }

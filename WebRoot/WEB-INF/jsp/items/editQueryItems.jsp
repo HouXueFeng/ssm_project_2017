@@ -9,9 +9,9 @@
 <title>查询商品列表</title>
 <script type="text/javascript">
 
-		function deleteItems(){
+		function editQueryAllItems(){
 			//提交form
-			document.itemsForm.action="${pageContext.request.contextPath }/items/deleteItems.action";
+			document.itemsForm.action="${pageContext.request.contextPath }/items/editQueryAllItems.action";
 			document.itemsForm.submit();
 		
 		}
@@ -30,7 +30,7 @@
 <td>
 <input type="text" name="itemsCustom.name" value="请输入商品名称">
 <input type="button" value="查询" onclick="queryItems()"/>
-<input type="button"  value="批量删除" onclick="deleteItems()">
+<input type="button"  value="批量修改" onclick="editQueryAllItems()">
 </td>
 </tr>
 </table>
@@ -43,14 +43,16 @@
 	<td>商品描述</td>
 	<td>操作</td>
 </tr>
-<c:forEach items="${itemsList}" var="item">
+<c:forEach items="${itemsList}" var="item" varStatus="status">
 <tr>
-<td><input type="checkbox" name="items_id" value="${item.id}"></td>
-	<td>${item.name }</td>
-	<td>${item.price }</td>
-	<td><fmt:formatDate value="${item.createtime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-	<td>${item.detail }</td>
-	<td><a href="${pageContext.request.contextPath }/items/editItems.action?id=${item.id}">修改</a></td>
+<!-- 这里的 status是判断集合中的第几个
+	还要控制修改的信息是可以输入修改的
+-->
+	<td><input name="itemsList[${status.index}].name" value="${item.name }"/></td>
+	<td><input name="itemsList[${status.index}].price" value="${item.price }"/></td>
+	<td><input name="itemsList[${status.index}].createtime" value="<fmt:formatDate value="${item.createtime}" pattern="yyyy-MM-dd HH:mm:ss"/>"/></td>
+	<td><input name="itemsList[${status.index}].detail" value="${item.detail }"/></td>
+	
 
 </tr>
 </c:forEach>

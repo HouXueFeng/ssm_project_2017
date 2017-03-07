@@ -19,9 +19,9 @@ public class ItemSeriveImpl implements ItemsService{
 	
 	//这里使用自动注入的方式因为 配置mapper扫描器时自动扫描了接口
 	@Autowired		
-	private ItemsMapperCustom itemsMapperCustom;
+	private ItemsMapperCustom itemsMapperCustom;//扩展
 	@Autowired
-	private ItemsMapper itemsMapper;
+	private ItemsMapper itemsMapper;//逆向工程中的
 	
 	@Override
 	public List<ItemsCustom> findItemsList(ItemsQueryVo itemsQueryVo) throws Exception {
@@ -39,13 +39,14 @@ public class ItemSeriveImpl implements ItemsService{
 		BeanUtils.copyProperties(items, itemsCustom);
 		return itemsCustom;
 	}
+	
+	//修改的时候必须通过id进行修改
 	@Override
 	public void updateItems(Integer id,ItemsCustom custom) throws Exception {
 		custom.setId(id);
 		itemsMapper.updateByPrimaryKeyWithBLOBs(custom);
 	}
 
-	
 	//进行商品的批量删除
 	@Override
 	public void deletedItems1(Integer[] items_id) throws Exception {
