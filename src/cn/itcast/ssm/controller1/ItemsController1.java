@@ -113,5 +113,10 @@ public class ItemsController1 {
 		//这里不能写/items的原因是在同一个controller中
 		return "forward:queryItems.action";
 	}
-
+	
+	@RequestMapping("/deleteItems")
+	public String deleteItems(Integer []items_id) throws Exception {
+		
+		return "success";
+	}
 }

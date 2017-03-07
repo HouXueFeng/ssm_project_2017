@@ -19,5 +19,8 @@
 		</where>
 	</select>
 	
+	<delete id="deleteItems" parameterType="cn.itcast.ssm.po.ItemsCustom">
+	
+	</delete>
 	
 </mapper>
