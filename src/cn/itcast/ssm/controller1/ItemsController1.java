@@ -117,17 +117,23 @@ public class ItemsController1 {
 		return "success";
 	}
 
-	// 进行批量修改商品信息的展示页面（可修改的）
-	@RequestMapping("/editQueryItems")
-	public String editQueryItems(HttpServletRequest request, ItemsQueryVo itemsQueryVo, Model model) throws Exception {
+	// 查询到商品的批量信息
+	@RequestMapping("editItemsQuery")
+	public String editItemsQuery(Model model, ItemsQueryVo itemsQueryVo) throws Exception {
+
 		// 调用Service查找数据库，查询商品列表
 		List<ItemsCustom> itemsList = itemsService.findItemsList(itemsQueryVo);
+
+		// 通过形参中的model将model数据传到页面
+
+		// 相当于modelAndeView.addObjcet方法
 		model.addAttribute("itemsList", itemsList);
 
-		return "items/editQueryItems";
+		return "items/editItemsQuery";
 	}
-	
-	
+
+	// 批量修改商品提交
+	// 通过ItemsQueryVo接收批量提交的商品，将商品信息存储到itemsQueryVo中itemsList属性中
 	@RequestMapping("/editQueryAllItems")
 	//将修改的信息存入ItemsQueryVo的list集合的itemsList属性中
 	public String editQueryAllItems(ItemsQueryVo itemsQueryVo) throws Exception {

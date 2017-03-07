@@ -44,15 +44,15 @@
 	<td>操作</td>
 </tr>
 <c:forEach items="${itemsList}" var="item" varStatus="status">
+<!--商品id-->
+<input type="hidden" name="itemsList[${status.index }].id" value="${item.id} "/>
 <tr>
-<!-- 这里的 status是判断集合中的第几个
-	还要控制修改的信息是可以输入修改的
--->
-	<td><input name="itemsList[${status.index}].name" value="${item.name }"/></td>
-	<td><input name="itemsList[${status.index}].price" value="${item.price }"/></td>
-	<td><input name="itemsList[${status.index}].createtime" value="<fmt:formatDate value="${item.createtime}" pattern="yyyy-MM-dd HH:mm:ss"/>"/></td>
-	<td><input name="itemsList[${status.index}].detail" value="${item.detail }"/></td>
-	
+
+	<td><input type="text" name="itemsList[${status.index }].name" value="${item.name} "/></td>
+	<td><input type="text" name="itemsList[${status.index }].price" value="${item.price} "/></td>
+	<td><input type="text" name="itemsList[${status.index }].createtime" value="<fmt:formatDate value="${item.createtime}" pattern="yyyy-MM-dd HH:mm:ss"/> "/></td>
+	<td><input type="text" name="itemsList[${status.index }].detail" value="${item.detail} "/></td>
+	<td><a href="${pageContext.request.contextPath }/items/editItems.action?id=${item.id}">修改</a></td>
 
 </tr>
 </c:forEach>

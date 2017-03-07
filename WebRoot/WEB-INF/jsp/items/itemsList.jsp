@@ -20,6 +20,7 @@
 		document.itemsForm.submit();
 		
 		}
+	
 </script>
 </head>
 <body> 

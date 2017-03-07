@@ -42,41 +42,38 @@
 	  WHEN 3 THEN 'value' 
 	  END WHERE id IN (1,2,3) -->
 
-	<update id="updateBatch" parameterType="cn.itcast.ssm.po.ItemsQueryVo">
-		<if test="itemsList!=null">
-			UPDATE items
+				<update id="updateBatch" parameterType="cn.itcast.ssm.po.ItemsQueryVo">
+			<if test="itemsList!=null">
+			UPDATE items 
 			<set>
-				name = case id
-				<foreach collection="itemsList" index="i" close="END,">
-					when
-					#{itemsList[${i}].id} then #{itemsList[${i}].name}
-				</foreach>
-				price = case id
-				<foreach collection="itemsList" index="i" close="END,">
-					when
-					#{itemsList[${i}].id} then #{itemsList[${i}].price}
-				</foreach>
-				detail = case id
-				<foreach collection="itemsList" index="i" close="END,">
-					when
-					#{itemsList[${i}].id} then #{itemsList[${i}].detail}
-				</foreach>
-				pic = case id
-				<foreach collection="itemsList" index="i" close="END,">
-					when
-					#{itemsList[${i}].id} then #{itemsList[${i}].pic}
-				</foreach>
-				createtime = case id
-				<foreach collection="itemsList" index="i" close="END,">
-					when
-					#{itemsList[${i}].id} then #{itemsList[${i}].createtime}
-				</foreach>
+			name = case id
+			<foreach collection="itemsList" index="i" close="END," >
+			when #{itemsList[${i}].id} then  #{itemsList[${i}].name}
+			</foreach>
+			price = case id
+			<foreach collection="itemsList" index="i" close="END," >
+			when #{itemsList[${i}].id} then  #{itemsList[${i}].price}
+			</foreach>
+			detail = case id
+			<foreach collection="itemsList" index="i" close="END," >
+			when #{itemsList[${i}].id} then  #{itemsList[${i}].detail}
+			</foreach>
+			pic = case id
+			<foreach collection="itemsList" index="i" close="END," >
+			when #{itemsList[${i}].id} then  #{itemsList[${i}].pic}
+			</foreach>
+			createtime = case id
+			<foreach collection="itemsList" index="i" close="END," >
+			when #{itemsList[${i}].id} then  #{itemsList[${i}].createtime}
+			</foreach>
 			</set>
 			WHERE id IN
-			<foreach collection="itemsList" index="i" open="(" close=")"
-				separator=",">
-				#{itemsList[${i}].id}
+			<foreach collection="itemsList" index="i" open="(" close=")" separator=",">
+			#{itemsList[${i}].id}
 			</foreach>
-		</if>
-	</update>
+			</if>
+			
+			
+			
+			</update>
 </mapper>
