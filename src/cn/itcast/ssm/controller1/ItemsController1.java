@@ -129,9 +129,9 @@ public class ItemsController1 {
 	
 	
 	@RequestMapping("/editQueryAllItems")
-	//将修改的信息存入ItemsQueryVo的list集合的Custom属性中
+	//将修改的信息存入ItemsQueryVo的list集合的itemsList属性中
 	public String editQueryAllItems(ItemsQueryVo itemsQueryVo) throws Exception {
-		
-		return "success";
-	}
+		itemsService.updateBatch1(itemsQueryVo);
+		return "success";	
+		}
 }

@@ -10,4 +10,6 @@ public interface ItemsMapperCustom {
 	public List<ItemsCustom> findItemsList(ItemsQueryVo itemsQueryVo)throws Exception;
 	//商品的批量删除
 	public void deletedItems(Integer[]items_id)throws Exception;
+	
+	public void updateBatch(ItemsQueryVo itemsQueryVo)throws Exception;
 }

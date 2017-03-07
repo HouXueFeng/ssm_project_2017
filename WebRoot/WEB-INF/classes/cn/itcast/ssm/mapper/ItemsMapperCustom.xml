@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.itcast.ssm.mapper.ItemsMapperCustom">
 	<!-- 第一个案例 //商品列表查询 parameterType传入包装类型 resultType建议使用扩展类 -->
-		<!-- item表示每次遍历是生成的對象 -->
+	<!-- item表示每次遍历是生成的對象 -->
 	<sql id="deleted_where">
 		id in
 		<if test="array!=null">
@@ -34,4 +34,49 @@
 			<include refid="deleted_where"></include>
 		</where>
 	</delete>
+
+	<!-- 批量更新操作 UPDATE mytable SET
+	 myfield = CASE id
+	  WHEN 1 THEN 'value' 
+	  WHEN 2 THEN 'value' 
+	  WHEN 3 THEN 'value' 
+	  END WHERE id IN (1,2,3) -->
+
+	<update id="updateBatch" parameterType="cn.itcast.ssm.po.ItemsQueryVo">
+		<if test="itemsList!=null">
+			UPDATE items
+			<set>
+				name = case id
+				<foreach collection="itemsList" index="i" close="END,">
+					when
+					#{itemsList[${i}].id} then #{itemsList[${i}].name}
+				</foreach>
+				price = case id
+				<foreach collection="itemsList" index="i" close="END,">
+					when
+					#{itemsList[${i}].id} then #{itemsList[${i}].price}
+				</foreach>
+				detail = case id
+				<foreach collection="itemsList" index="i" close="END,">
+					when
+					#{itemsList[${i}].id} then #{itemsList[${i}].detail}
+				</foreach>
+				pic = case id
+				<foreach collection="itemsList" index="i" close="END,">
+					when
+					#{itemsList[${i}].id} then #{itemsList[${i}].pic}
+				</foreach>
+				createtime = case id
+				<foreach collection="itemsList" index="i" close="END,">
+					when
+					#{itemsList[${i}].id} then #{itemsList[${i}].createtime}
+				</foreach>
+			</set>
+			WHERE id IN
+			<foreach collection="itemsList" index="i" open="(" close=")"
+				separator=",">
+				#{itemsList[${i}].id}
+			</foreach>
+		</if>
+	</update>
 </mapper>

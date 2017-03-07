@@ -1,4 +1,5 @@
 package cn.itcast.ssm.service.impl;
+import java.awt.Image;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -54,6 +55,13 @@ public class ItemSeriveImpl implements ItemsService{
 		
 	}
 
+	@Override
+	public void updateBatch1(ItemsQueryVo itemsQueryVo) throws Exception {
+
+		itemsMapperCustom.updateBatch(itemsQueryVo);
+	}
+
+	
 
 	
 }
