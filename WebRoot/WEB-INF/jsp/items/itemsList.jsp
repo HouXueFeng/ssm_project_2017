@@ -9,17 +9,17 @@
 <title>查询商品列表</title>
 <script type="text/javascript">
 
-function deleteItems(){
-	//提交form
-	document.itemsForm.action="${pageContext.request.contextPath }/items/deleteItems.action";
-	document.itemsForm.submit();
-
-}
-function queryItems(){
-document.itemsForm.action="${pageContext.request.contextPath }/items/queryItems.action";
-document.itemsForm.submit();
-
-}
+		function deleteItems(){
+			//提交form
+			document.itemsForm.action="${pageContext.request.contextPath }/items/deleteItems.action";
+			document.itemsForm.submit();
+		
+		}
+		function queryItems(){
+		document.itemsForm.action="${pageContext.request.contextPath }/items/queryItems.action";
+		document.itemsForm.submit();
+		
+		}
 </script>
 </head>
 <body> 

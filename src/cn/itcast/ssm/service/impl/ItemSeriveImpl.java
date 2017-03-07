@@ -44,4 +44,15 @@ public class ItemSeriveImpl implements ItemsService{
 		custom.setId(id);
 		itemsMapper.updateByPrimaryKeyWithBLOBs(custom);
 	}
+
+	
+	//进行商品的批量删除
+	@Override
+	public void deletedItems1(Integer[] items_id) throws Exception {
+		itemsMapperCustom.deletedItems(items_id);
+		
+	}
+
+
+	
 }
