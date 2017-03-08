@@ -27,11 +27,9 @@
 查询条件：
 <table width="100%" border=1>
 <tr>
-<td>
-<input type="text" name="itemsCustom.name" value="请输入商品名称">
-<input type="button" value="查询" onclick="queryItems()"/>
-<input type="button"  value="批量修改" onclick="editQueryAllItems()">
-</td>
+<td><input type="text" name="itemsCustom.name"/></td>
+<td><input type="button" value="查询" onclick="queryItems()"/></td>
+<td><input type="button"  value="批量修改提交" onclick="editQueryAllItems()"/></td>
 </tr>
 </table>
 商品列表：

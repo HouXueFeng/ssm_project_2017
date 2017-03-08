@@ -21,6 +21,11 @@
 		
 		}
 	
+		function  editItemsQuery(){
+			document.itemsForm.action="${pageContext.request.contextPath }/items/editItemsQuery1.action";
+			alert("是否确认批量修改？");
+			document.itemsForm.submit();
+		}
 </script>
 </head>
 <body> 
@@ -28,11 +33,11 @@
 查询条件：
 <table width="100%" border=1>
 <tr>
-<td>
-<input type="text" name="itemsCustom.name" value="请输入商品名称">
-<input type="button" value="查询" onclick="queryItems()"/>
-<input type="button"  value="批量删除" onclick="deleteItems()">
-</td>
+<td><input type="text" name="itemsCustom.name"/></td>
+<td><input type="button" value="查询" onclick="queryItems()"/></td>
+<td><input type="button" value="批量修改" onclick="editItemsQuery()"/></td>
+<td><input type="button" value="批量删除" onclick="deleteItems()"/></td>
+
 </tr>
 </table>
 商品列表：
@@ -46,7 +51,7 @@
 </tr>
 <c:forEach items="${itemsList}" var="item">
 <tr>
-<td><input type="checkbox" name="items_id" value="${item.id}"></td>
+<td><input type="checkbox" name="items_id" value="${item.id}"/></td>
 	<td>${item.name }</td>
 	<td>${item.price }</td>
 	<td><fmt:formatDate value="${item.createtime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>

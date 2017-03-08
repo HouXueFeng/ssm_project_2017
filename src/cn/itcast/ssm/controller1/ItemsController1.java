@@ -1,5 +1,4 @@
 package cn.itcast.ssm.controller1;
-
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import cn.itcast.ssm.po.ItemsCustom;
 import cn.itcast.ssm.po.ItemsQueryVo;
 import cn.itcast.ssm.service.ItemsService;
-
 /**
  * 
  */
@@ -118,18 +116,12 @@ public class ItemsController1 {
 	}
 
 	// 查询到商品的批量信息
-	@RequestMapping("editItemsQuery")
-	public String editItemsQuery(Model model, ItemsQueryVo itemsQueryVo) throws Exception {
+	@RequestMapping("editItemsQuery1")
+	public String editItemsQuery1(Model model, ItemsQueryVo itemsQueryVo,HttpServletRequest request) throws Exception {
 
-		// 调用Service查找数据库，查询商品列表
 		List<ItemsCustom> itemsList = itemsService.findItemsList(itemsQueryVo);
-
-		// 通过形参中的model将model数据传到页面
-
-		// 相当于modelAndeView.addObjcet方法
 		model.addAttribute("itemsList", itemsList);
-
-		return "items/editItemsQuery";
+		return "items/editItemsQuery2";
 	}
 
 	// 批量修改商品提交
@@ -138,6 +130,6 @@ public class ItemsController1 {
 	//将修改的信息存入ItemsQueryVo的list集合的itemsList属性中
 	public String editQueryAllItems(ItemsQueryVo itemsQueryVo) throws Exception {
 		itemsService.updateBatch1(itemsQueryVo);
-		return "success";	
+		return "forward:queryItems.action";	
 		}
 }

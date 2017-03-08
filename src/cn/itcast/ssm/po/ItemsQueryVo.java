@@ -13,7 +13,6 @@ public class ItemsQueryVo {
 	//将修改的信息放到包装类的List集合itemsList中
 	private List<ItemsCustom>itemsList;
 	
-
 	public List<ItemsCustom> getItemsList() {
 		return itemsList;
 	}
