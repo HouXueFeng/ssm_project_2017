@@ -2,15 +2,20 @@ package cn.itcast.ssm.po;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import cn.itcast.ssm.validator.ValidGroup;
+
 public class Items {
     private Integer id;
-
+@Size(min=1,max=30,message="{items.name.length.error}",groups={ValidGroup.class})
     private String name;
 
     private Float price;
 
     private String pic;
-
+@NotNull(message="{items.createtime.isNull.error}",groups={ValidGroup.class})
     private Date createtime;
 
     private String detail;
