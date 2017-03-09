@@ -10,8 +10,11 @@
 
 </head>
 <body> 
+
 <form id="itemForm" action="${pageContext.request.contextPath }/items/editItemsSubmit.action" method="post">
 <input type="hidden" name="id" value="${itemsCustom.id}"/>
+
+
 修改商品信息：
 <table width="100%" border=1>
 <tr>
@@ -50,7 +53,12 @@
 </td>
 </tr>
 </table>
-
+<!-- 显示错误信息 -->
+<c:if test="${allErrors!=null }">
+	<c:forEach items="${allErrors }" var="error">
+	<center><font color="red">${ error.defaultMessage}</font></center><br/>
+</c:forEach>
+</c:if>
 </form>
 </body>
 

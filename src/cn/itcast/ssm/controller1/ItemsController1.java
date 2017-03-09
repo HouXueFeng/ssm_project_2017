@@ -3,14 +3,19 @@ package cn.itcast.ssm.controller1;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import cn.itcast.ssm.po.ItemsCustom;
 import cn.itcast.ssm.po.ItemsQueryVo;
 import cn.itcast.ssm.service.ItemsService;
+import cn.itcast.ssm.validator.ValidGroup;
 
 /**
  * 
@@ -54,9 +59,11 @@ public class ItemsController1 {
 	// ------------------------------------------------------------
 	// 使用参数绑定简单类型,使用@RequestParam进行参数绑定
 	// 注意：@RequestParam里面的指定request传入参数和形参item_id进行绑定
+
 	@RequestMapping(value = "/editItems", method = { RequestMethod.GET, RequestMethod.POST })
 	public String editItems(Model model, @RequestParam(value = "id", required = true) Integer items_id)
 			throws Exception {
+
 		// 根据id查询商品
 		ItemsCustom itemsCustom = itemsService.selectItemById(items_id);
 		// 通过形式参数中的model将model数据传到页面
@@ -94,8 +101,25 @@ public class ItemsController1 {
 
 	// 进行页面修改后的提交传入pojo（参数绑定pojo）
 	@RequestMapping("/editItemsSubmit")
-	public String editItemsSubmit(HttpServletRequest request, Integer id, ItemsCustom itemsCustom) throws Exception {
+	//// 在需要校验的pojo前边添加@Validated，在需要校验的pojo后边添加BindingResult
+	//// bindingResult接收校验出错信息
+	// 注意：@Validated和BindingResult bindingResult是配对出现，并且形参顺序是固定的（一前一后）。
+	public String editItemsSubmit(Model model, HttpServletRequest request, Integer id,
+			@Validated(value = { ValidGroup.class }) ItemsCustom itemsCustom, BindingResult bindingResult)
+			throws Exception {
 
+		if (bindingResult.hasErrors()) {
+
+			List<ObjectError> allErrors = bindingResult.getAllErrors();
+
+			for (ObjectError objectError : allErrors) {
+				System.out.println(objectError.getDefaultMessage());
+			}
+
+			model.addAttribute("allErrors", allErrors);// 将错误的信息集合传到前台页面
+
+			return "items/editItems";
+		}
 		// 进行页面修改itemsCustom中传入了商品属性
 		itemsService.updateItems(id, itemsCustom);
 		// 因为不用传递数据所以直接返回页面
@@ -135,9 +159,9 @@ public class ItemsController1 {
 	// 批量修改商品提交
 	// 通过ItemsQueryVo接收批量提交的商品，将商品信息存储到itemsQueryVo中itemsList属性中
 	@RequestMapping("/editQueryAllItems")
-	//将修改的信息存入ItemsQueryVo的list集合的itemsList属性中
+	// 将修改的信息存入ItemsQueryVo的list集合的itemsList属性中
 	public String editQueryAllItems(ItemsQueryVo itemsQueryVo) throws Exception {
 		itemsService.updateBatch1(itemsQueryVo);
-		return "success";	
-		}
+		return "success";
+	}
 }
