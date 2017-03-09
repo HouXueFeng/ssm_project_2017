@@ -14,11 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import cn.itcast.ssm.po.ItemsCustom;
 import cn.itcast.ssm.po.ItemsQueryVo;
 import cn.itcast.ssm.service.ItemsService;
-<<<<<<< HEAD
-=======
+
 import cn.itcast.ssm.validator.ValidGroup;
 
->>>>>>> hou
 /**
  * 
  */
@@ -158,11 +156,6 @@ public class ItemsController1 {
 	// 将修改的信息存入ItemsQueryVo的list集合的itemsList属性中
 	public String editQueryAllItems(ItemsQueryVo itemsQueryVo) throws Exception {
 		itemsService.updateBatch1(itemsQueryVo);
-<<<<<<< HEAD
 		return "forward:queryItems.action";	
-		}
-=======
-		return "success";
 	}
->>>>>>> hou
 }
