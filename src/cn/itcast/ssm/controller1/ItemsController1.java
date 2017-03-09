@@ -1,5 +1,8 @@
 package cn.itcast.ssm.controller1;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -68,7 +72,8 @@ public class ItemsController1 {
 		ItemsCustom itemsCustom = itemsService.selectItemById(items_id);
 		// 通过形式参数中的model将model数据传到页面
 		// addAttribute（）相当于modelAndView.addObject（）方法
-		model.addAttribute("itemsCustom", itemsCustom);
+		model.addAttribute("items", itemsCustom);
+		 //这里把items传到editItems.jsp
 		return "items/editItems";
 	}
 
@@ -100,27 +105,32 @@ public class ItemsController1 {
 	// ------------------------------------------------------------
 
 	// 进行页面修改后的提交传入pojo（参数绑定pojo）
-	@RequestMapping("/editItemsSubmit")
+
+	
+	//校验器
 	//// 在需要校验的pojo前边添加@Validated，在需要校验的pojo后边添加BindingResult
 	//// bindingResult接收校验出错信息
 	// 注意：@Validated和BindingResult bindingResult是配对出现，并且形参顺序是固定的（一前一后）。
-	public String editItemsSubmit(Model model, HttpServletRequest request, Integer id,
+	
+	
+	//数据回显
+	//数据回显默认情况下springmvc会把pojo数据放到request域，key等于pojo类型（首字母小写）
+	//可以使用注解@ModelAttribute可以指定pojo回显到request域中key
+	//这里因为itemsCustom是扩展的items
+	//最简单的方式是使用mode.addattribute();把指定pojo回显到request域中key
+	@RequestMapping("/editItemsSubmit")
+	public String editItemsSubmit(Model model, HttpServletRequest request, Integer id,@ModelAttribute("items")
 			@Validated(value = { ValidGroup.class }) ItemsCustom itemsCustom, BindingResult bindingResult)
 			throws Exception {
-
 		if (bindingResult.hasErrors()) {
-
 			List<ObjectError> allErrors = bindingResult.getAllErrors();
-
 			for (ObjectError objectError : allErrors) {
 				System.out.println(objectError.getDefaultMessage());
 			}
-
 			model.addAttribute("allErrors", allErrors);// 将错误的信息集合传到前台页面
-
 			return "items/editItems";
 		}
-		// 进行页面修改itemsCustom中传入了商品属性
+		// 进行页面修改itemsCustom中传入了商品属性mode.add
 		itemsService.updateItems(id, itemsCustom);
 		// 因为不用传递数据所以直接返回页面
 		// 进行重定向forward（可以进行数据共享）
@@ -157,5 +167,16 @@ public class ItemsController1 {
 	public String editQueryAllItems(ItemsQueryVo itemsQueryVo) throws Exception {
 		itemsService.updateBatch1(itemsQueryVo);
 		return "forward:queryItems.action";	
+	}
+	
+	//商品分类
+	//@ModelAttribute可以吧方法的返回值放到request中的key
+	@ModelAttribute("itemtypes")
+	public Map<String,String>getItemTypes(){
+		Map<String, String>itemTypes=new HashMap<String, String>();
+		itemTypes.put("101", "数码");
+		itemTypes.put("102", "母婴");
+		return itemTypes;
+		
 	}
 }
