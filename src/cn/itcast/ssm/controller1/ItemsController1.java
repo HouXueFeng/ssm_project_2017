@@ -134,19 +134,19 @@ public class ItemsController1 {
 			for (ObjectError objectError : allErrors) {
 				System.out.println(objectError.getDefaultMessage());
 			}
-			
-			
 			model.addAttribute("allErrors", allErrors);// 将错误的信息集合传到前台页面
 			return "items/editItems";
 		}
 		String orginFileName=items_pic.getOriginalFilename();//原始名称
-
+		/**
+		 * 文件上传
+		 */
 		if(items_pic!=null&&orginFileName!=null&&orginFileName.length()>0){
-		String pic_path="E:\\upload\\";//路径
+		String pic_path="E:\\upload\\";//虚拟目录路径
 		String newFileName=UUID.randomUUID()+orginFileName.substring(orginFileName.lastIndexOf("."));
 		//新名称=随机数+后缀
 		File file=new File(pic_path+newFileName);
-		items_pic.transferTo(file);
+		items_pic.transferTo(file);//上传
 
 		itemsCustom.setPic(newFileName);
 
