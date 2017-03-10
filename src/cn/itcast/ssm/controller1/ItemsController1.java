@@ -1,11 +1,13 @@
 package cn.itcast.ssm.controller1;
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,12 +17,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
-import cn.itcast.ssm.exception.CustomException;
 import cn.itcast.ssm.po.ItemsCustom;
 import cn.itcast.ssm.po.ItemsQueryVo;
 import cn.itcast.ssm.service.ItemsService;
-
 import cn.itcast.ssm.validator.ValidGroup;
 
 /**
@@ -126,17 +127,33 @@ public class ItemsController1 {
 	//最简单的方式是使用mode.addattribute();把指定pojo回显到request域中key
 	@RequestMapping("/editItemsSubmit")
 	public String editItemsSubmit(Model model, HttpServletRequest request, Integer id,@ModelAttribute("items")
-			@Validated(value = { ValidGroup.class }) ItemsCustom itemsCustom, BindingResult bindingResult)
+			@Validated(value = { ValidGroup.class }) ItemsCustom itemsCustom, BindingResult bindingResult,MultipartFile items_pic)
 			throws Exception {
 		if (bindingResult.hasErrors()) {
 			List<ObjectError> allErrors = bindingResult.getAllErrors();
 			for (ObjectError objectError : allErrors) {
 				System.out.println(objectError.getDefaultMessage());
 			}
+			
+			
 			model.addAttribute("allErrors", allErrors);// 将错误的信息集合传到前台页面
 			return "items/editItems";
 		}
-		// 进行页面修改itemsCustom中传入了商品属性mode.add
+		String orginFileName=items_pic.getOriginalFilename();//原始名称
+
+		if(items_pic!=null&&orginFileName!=null&&orginFileName.length()>0){
+		String pic_path="E:\\upload\\";//路径
+		String newFileName=UUID.randomUUID()+orginFileName.substring(orginFileName.lastIndexOf("."));
+		//新名称=随机数+后缀
+		File file=new File(pic_path+newFileName);
+		items_pic.transferTo(file);
+
+		itemsCustom.setPic(newFileName);
+
+		
+}
+
+		// 进行页面修改itemsCustom中传入了商品属性mode.add()
 		itemsService.updateItems(id, itemsCustom);
 		// 因为不用传递数据所以直接返回页面
 		// 进行重定向forward（可以进行数据共享）
