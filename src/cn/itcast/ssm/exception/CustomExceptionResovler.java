@@ -8,6 +8,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Byhouxuefeng 2017年3月10日
+ * 全局异常处理器
+ * 
  */
 public final class CustomExceptionResovler implements HandlerExceptionResolver {
 

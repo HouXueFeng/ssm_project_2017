@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import cn.itcast.ssm.exception.CustomException;
 import cn.itcast.ssm.po.ItemsCustom;
 import cn.itcast.ssm.po.ItemsQueryVo;
 import cn.itcast.ssm.service.ItemsService;
@@ -70,6 +72,10 @@ public class ItemsController1 {
 
 		// 根据id查询商品
 		ItemsCustom itemsCustom = itemsService.selectItemById(items_id);
+		
+//		if(itemsCustom==null){
+//			throw  new CustomException("修改的商品不存在！！！");
+//		}
 		// 通过形式参数中的model将model数据传到页面
 		// addAttribute（）相当于modelAndView.addObject（）方法
 		model.addAttribute("items", itemsCustom);
