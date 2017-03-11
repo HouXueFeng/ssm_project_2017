@@ -86,4 +86,25 @@
 			<value>5242880</value>
 		</property>
 	</bean>
+	
+	
+	<!--拦截器 -->
+<mvc:interceptors>
+	<!--多个拦截器,顺序执行 -->
+	<!-- 登陆认证拦截器 -->
+	<!-- 表示所有的url包括子URl -->
+	<mvc:interceptor>
+		<mvc:mapping path="/**"/>
+		<bean class="cn.itcast.ssm.interceptor.LoginInterceptor"></bean>
+	</mvc:interceptor>
+	<mvc:interceptor>
+		<!-- /**表示所有url包括子url路径 -->
+		<mvc:mapping path="/**"/>
+		<bean class="cn.itcast.ssm.interceptor.HandlerInterceptor1"></bean>
+	</mvc:interceptor>
+	<mvc:interceptor>
+		<mvc:mapping path="/**"/>
+		<bean class="cn.itcast.ssm.interceptor.HandlerInterceptor2"></bean>
+	</mvc:interceptor>
+</mvc:interceptors>
 </beans>
