@@ -1,4 +1,5 @@
 package cn.itcast.ssm.controller1;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -6,6 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,9 +16,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import cn.itcast.ssm.po.ItemsCustom;
@@ -48,6 +52,7 @@ public class ItemsController1 {
 		model.addAttribute("itemsList", itemsList);
 		return "items/itemsList";
 	}
+
 	// ------------------------------------------------------------
 
 	// @RequestMapping("/editItems")
@@ -73,14 +78,14 @@ public class ItemsController1 {
 
 		// 根据id查询商品
 		ItemsCustom itemsCustom = itemsService.selectItemById(items_id);
-		
-//		if(itemsCustom==null){
-//			throw  new CustomException("修改的商品不存在！！！");
-//		}
+
+		// if(itemsCustom==null){
+		// throw new CustomException("修改的商品不存在！！！");
+		// }
 		// 通过形式参数中的model将model数据传到页面
 		// addAttribute（）相当于modelAndView.addObject（）方法
 		model.addAttribute("items", itemsCustom);
-		 //这里把items传到editItems.jsp
+		// 这里把items传到editItems.jsp
 		return "items/editItems";
 	}
 
@@ -113,22 +118,20 @@ public class ItemsController1 {
 
 	// 进行页面修改后的提交传入pojo（参数绑定pojo）
 
-	
-	//校验器
+	// 校验器
 	//// 在需要校验的pojo前边添加@Validated，在需要校验的pojo后边添加BindingResult
 	//// bindingResult接收校验出错信息
 	// 注意：@Validated和BindingResult bindingResult是配对出现，并且形参顺序是固定的（一前一后）。
-	
-	
-	//数据回显
-	//数据回显默认情况下springmvc会把pojo数据放到request域，key等于pojo类型（首字母小写）
-	//可以使用注解@ModelAttribute可以指定pojo回显到request域中key
-	//这里因为itemsCustom是扩展的items
-	//最简单的方式是使用mode.addattribute();把指定pojo回显到request域中key
+
+	// 数据回显
+	// 数据回显默认情况下springmvc会把pojo数据放到request域，key等于pojo类型（首字母小写）
+	// 可以使用注解@ModelAttribute可以指定pojo回显到request域中key
+	// 这里因为itemsCustom是扩展的items
+	// 最简单的方式是使用mode.addattribute();把指定pojo回显到request域中key
 	@RequestMapping("/editItemsSubmit")
-	public String editItemsSubmit(Model model, HttpServletRequest request, Integer id,@ModelAttribute("items")
-			@Validated(value = { ValidGroup.class }) ItemsCustom itemsCustom, BindingResult bindingResult,MultipartFile items_pic)
-			throws Exception {
+	public String editItemsSubmit(Model model, HttpServletRequest request, Integer id,
+			@ModelAttribute("items") @Validated(value = { ValidGroup.class }) ItemsCustom itemsCustom,
+			BindingResult bindingResult, MultipartFile items_pic) throws Exception {
 		if (bindingResult.hasErrors()) {
 			List<ObjectError> allErrors = bindingResult.getAllErrors();
 			for (ObjectError objectError : allErrors) {
@@ -137,21 +140,20 @@ public class ItemsController1 {
 			model.addAttribute("allErrors", allErrors);// 将错误的信息集合传到前台页面
 			return "items/editItems";
 		}
-		String orginFileName=items_pic.getOriginalFilename();//原始名称
+		String orginFileName = items_pic.getOriginalFilename();// 原始名称
 		/**
 		 * 文件上传
 		 */
-		if(items_pic!=null&&orginFileName!=null&&orginFileName.length()>0){
-		String pic_path="E:\\upload\\";//虚拟目录路径
-		String newFileName=UUID.randomUUID()+orginFileName.substring(orginFileName.lastIndexOf("."));
-		//新名称=随机数+后缀
-		File file=new File(pic_path+newFileName);
-		items_pic.transferTo(file);//上传
+		if (items_pic != null && orginFileName != null && orginFileName.length() > 0) {
+			String pic_path = "E:\\upload\\";// 虚拟目录路径
+			String newFileName = UUID.randomUUID() + orginFileName.substring(orginFileName.lastIndexOf("."));
+			// 新名称=随机数+后缀
+			File file = new File(pic_path + newFileName);
+			items_pic.transferTo(file);// 上传
 
-		itemsCustom.setPic(newFileName);
+			itemsCustom.setPic(newFileName);
 
-		
-}
+		}
 
 		// 进行页面修改itemsCustom中传入了商品属性mode.add()
 		itemsService.updateItems(id, itemsCustom);
@@ -176,7 +178,7 @@ public class ItemsController1 {
 
 	// 查询到商品的批量信息
 	@RequestMapping("editItemsQuery1")
-	public String editItemsQuery1(Model model, ItemsQueryVo itemsQueryVo,HttpServletRequest request) throws Exception {
+	public String editItemsQuery1(Model model, ItemsQueryVo itemsQueryVo, HttpServletRequest request) throws Exception {
 
 		List<ItemsCustom> itemsList = itemsService.findItemsList(itemsQueryVo);
 		model.addAttribute("itemsList", itemsList);
@@ -189,17 +191,48 @@ public class ItemsController1 {
 	// 将修改的信息存入ItemsQueryVo的list集合的itemsList属性中
 	public String editQueryAllItems(ItemsQueryVo itemsQueryVo) throws Exception {
 		itemsService.updateBatch1(itemsQueryVo);
-		return "forward:queryItems.action";	
+		return "forward:queryItems.action";
 	}
-	
-	//商品分类
-	//@ModelAttribute可以吧方法的返回值放到request中的key
+
+	// 商品分类
+	// @ModelAttribute可以吧方法的返回值放到request中的key
 	@ModelAttribute("itemtypes")
-	public Map<String,String>getItemTypes(){
-		Map<String, String>itemTypes=new HashMap<String, String>();
+	public Map<String, String> getItemTypes() {
+		Map<String, String> itemTypes = new HashMap<String, String>();
 		itemTypes.put("101", "数码");
 		itemTypes.put("102", "母婴");
 		return itemTypes;
-		
+
+	}
+
+	/**
+	 * restful的url返回json串jsonObject
+	 * 
+	 * @RequestMapping（value=“/itemsview/{id}”：{xxx}占位符，请求URL可以是itemsview/1，itemsview/2，通过在方法中使用
+	 * @PathVariable获取{xxx}中的xxx变量 如果想加入类型可以在@PathVariable("id") Integer
+	 *                             id后加@PathVariable（“type”）String type等
+	 * @param model
+	 * @param 通过id查询商品
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/itemsview/{id}")
+	public @ResponseBody ItemsCustom itemsview(@PathVariable("id") Integer id) throws Exception {
+		ItemsCustom itemsCustom = itemsService.selectItemById(id);
+		return itemsCustom;
+
+	}
+
+	/**
+	 * 批量查询商品信息
+	 * @param itemsQueryVo返回jsonList
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/itemsList")
+	public @ResponseBody List<ItemsCustom> itemsList(ItemsQueryVo itemsQueryVo) throws Exception {
+		List<ItemsCustom> findItemsList = itemsService.findItemsList(itemsQueryVo);
+		return findItemsList;
+
 	}
 }
