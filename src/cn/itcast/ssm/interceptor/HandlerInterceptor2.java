@@ -10,13 +10,9 @@ import org.springframework.web.servlet.ModelAndView;
 * @author  CreateBy HouXueFeng
 * @version 2017年3月11日 下午7:03:51
 * @description 拦截器类中的方法执行顺序
-* 总结：
-拦截器1放行，拦截器2 preHandle才会执行。
-拦截器2 preHandle不放行，拦截器2 postHandle和afterCompletion不会执行。
-只要有一个拦截器不放行，postHandle不会执行。
 * 
 */
-public class HandlerInterceptor1 implements HandlerInterceptor{
+public class HandlerInterceptor2 implements HandlerInterceptor{
 
 	
 	//进入handler之前执行
@@ -27,9 +23,9 @@ public class HandlerInterceptor1 implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		System.out.println("HandlerInterceptor1.....preHandle");
-//		return false;//表示拦截，不向下执行
-		return true;//表示执行
+		System.out.println("HandlerInterceptor2.....preHandle");
+		return false;//表示拦截，不向下执行
+//		return true;//表示执行
 	}
 
 	//进入handler之后，返回modelAndView之前执行
@@ -37,7 +33,7 @@ public class HandlerInterceptor1 implements HandlerInterceptor{
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		System.out.println("HandlerInterceptor1.....postHandle");
+		System.out.println("HandlerInterceptor2.....postHandle");
 
 	}
 	//执行handler完成此方法
@@ -45,7 +41,7 @@ public class HandlerInterceptor1 implements HandlerInterceptor{
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
-		System.out.println("HandlerInterceptor1.....afterCompletion");
+		System.out.println("HandlerInterceptor2.....afterCompletion");
 
 		
 	}
