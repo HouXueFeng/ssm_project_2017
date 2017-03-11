@@ -16,6 +16,6 @@
 		
 		<!--商品管理的Servive  -->
 		<bean id="itemsService" class="cn.itcast.ssm.service.impl.ItemSeriveImpl"/>
-		
+		<bean id="loginServiceImpl" class="cn.itcast.ssm.service.impl.LoginServiceImpl"/>
 		
 </beans>

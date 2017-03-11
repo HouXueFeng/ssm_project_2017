@@ -24,8 +24,8 @@ public class HandlerInterceptor2 implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		System.out.println("HandlerInterceptor2.....preHandle");
-		return false;//表示拦截，不向下执行
-//		return true;//表示执行
+//		return false;//表示拦截，不向下执行
+		return true;//表示执行
 	}
 
 	//进入handler之后，返回modelAndView之前执行
