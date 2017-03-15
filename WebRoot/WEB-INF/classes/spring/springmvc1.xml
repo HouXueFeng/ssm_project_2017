@@ -16,11 +16,11 @@
 	<context:component-scan base-package="cn.itcast.ssm.controller1">
 	</context:component-scan>
 
-	<!-- 静态资源解析 -->
+	<!-- 静态资源解析 
 	<mvc:resources location="/js/" mapping="/js/**" />
 	<mvc:resources location="/img/" mapping="/img/**" />
 	<mvc:resources location="/css/" mapping="/css/**" />
-
+-->
 	<!--注解映射器 -->
 	<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/> -->
 	<!--注解适配器 -->
@@ -86,26 +86,21 @@
 			<value>5242880</value>
 		</property>
 	</bean>
-	
-	
+
+
 	<!--拦截器 -->
-<mvc:interceptors>
-	<!--多个拦截器,顺序执行 -->
-	<!-- 登陆认证拦截器 -->
-	<!-- 表示所有的url包括子URl -->
-	<mvc:interceptor>
-		<!-- /**表示所有url包括子url路径 -->
-		<mvc:mapping path="/**"/>
-		<bean class="cn.itcast.ssm.interceptor.LoginInterceptor"></bean>
-	</mvc:interceptor>
-	<mvc:interceptor>
-		<!-- /**表示所有url包括子url路径 -->
-		<mvc:mapping path="/**"/>
-		<bean class="cn.itcast.ssm.interceptor.HandlerInterceptor1"></bean>
-	</mvc:interceptor>
-	<mvc:interceptor>
-		<mvc:mapping path="/**"/>
-		<bean class="cn.itcast.ssm.interceptor.HandlerInterceptor2"></bean>
-	</mvc:interceptor>
-</mvc:interceptors>
+	<mvc:interceptors>
+		<!--多个拦截器,顺序执行 -->
+		<!-- 登陆认证拦截器 -->
+		<!-- 表示所有的url包括子URl -->
+
+		<mvc:interceptor>
+			<!-- /**表示所有url包括子url路径 -->
+			<mvc:mapping path="/**" />
+			<bean class="cn.itcast.ssm.interceptor.LoginInterceptor"></bean>
+		</mvc:interceptor>
+
+		
+
+	</mvc:interceptors>
 </beans>

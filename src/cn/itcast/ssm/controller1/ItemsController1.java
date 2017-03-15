@@ -123,7 +123,7 @@ public class ItemsController1 {
 	// 这里因为itemsCustom是扩展的items
 	// 最简单的方式是使用mode.addattribute();把指定pojo回显到request域中key
 	@RequestMapping("/editItemsSubmit")
-	public String editItemsSubmit(Model model, HttpServletRequest request, Integer id,
+	public String editItemsSubmit(Model model, Integer id,
 			@ModelAttribute("items") @Validated(value = { ValidGroup.class }) ItemsCustom itemsCustom,
 			BindingResult bindingResult, MultipartFile items_pic) throws Exception {
 		if (bindingResult.hasErrors()) {
@@ -184,7 +184,7 @@ public class ItemsController1 {
 	@RequestMapping("/editQueryAllItems")
 	// 将修改的信息存入ItemsQueryVo的list集合的itemsList属性中
 	public String editQueryAllItems(ItemsQueryVo itemsQueryVo) throws Exception {
-		itemsService.updateBatch1(itemsQueryVo);
+		itemsService.updateBatch1(itemsQueryVo);  	
 		return "forward:queryItems.action";
 	}
 

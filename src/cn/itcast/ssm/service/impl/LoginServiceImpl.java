@@ -20,7 +20,6 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public Integer findLoginMessageList(UserLoginVo loginVo) throws Exception {
 
-	
 		  Integer integer = userLoginMapper.findLoginMessageList(loginVo);
 		
 		 return integer;

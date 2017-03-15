@@ -19,23 +19,22 @@ public class LoginInterceptor implements HandlerInterceptor {
 		System.out.println("LoginInterceptor.....preHandle");
 		String url = request.getRequestURI();
 		System.out.println(url);
-
 		if (url.indexOf("login.action") >= 0) {
 			return true;
-
+		}else if(url.indexOf("register.action") >= 0) {
+			return true;
 		}
 		HttpSession session = request.getSession();
 		String username = (String) session.getAttribute("username");
 		String password = (String) session.getAttribute("password");
 		if (username != null && password != null) {
 			return true;
-		}
-
-		request.getRequestDispatcher("/WEB-INF/jsp/login1.jsp").forward(request, response);
+		}else{
+		request.getRequestDispatcher("/WEB-INF/jsp/login11.jsp").forward(request, response);
 		return false;// 表示拦截，不向下执行
 		// return true;//表示执行
+		}
 	}
-
 	// 进入handler之后，返回modelAndView之前执行
 	// 应用场景从modeAndView出发（将公用的模型数据在这里传到视图，也可以在这里统一制定视图）
 	@Override
@@ -44,7 +43,6 @@ public class LoginInterceptor implements HandlerInterceptor {
 		System.out.println("LoginInterceptor.....postHandle");
 
 	}
-
 	// 执行handler完成此方法
 	// 应用场景：统一异常处理，统一日志处理。
 	@Override

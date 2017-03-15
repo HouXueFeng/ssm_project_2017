@@ -6,16 +6,15 @@ package cn.itcast.ssm.po;
 */
 public class login_User {
 	
-	private int user_id;
+	private int login_user_id;
 	private String username;
 	private String password;
-	
-	
-	public int getUser_id() {
-		return user_id;
+	private String user_trueName;
+	public int getLogin_user_id() {
+		return login_user_id;
 	}
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setLogin_user_id(int login_user_id) {
+		this.login_user_id = login_user_id;
 	}
 	public String getUsername() {
 		return username;
@@ -29,10 +28,15 @@ public class login_User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	@Override
-	public String toString() {
-		return "login_User [user_id=" + user_id + ", username=" + username + ", password=" + password + "]";
+	public String getUser_trueName() {
+		return user_trueName;
 	}
+	public void setUser_trueName(String user_trueName) {
+		this.user_trueName = user_trueName;
+	}
+	
+	
+	
 	
 
 }

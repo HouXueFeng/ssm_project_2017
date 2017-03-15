@@ -2,7 +2,7 @@ package cn.itcast.ssm.po;
 
 import java.util.Date;
 
-public class User {
+public class  User{
     private Integer id;
 
     private String username;

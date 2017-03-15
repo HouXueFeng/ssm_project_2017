@@ -11,6 +11,16 @@ public class UserLoginVo {
 
 	private UserCustom userCustom;
 	private List<UserCustom> ListCustom;
+	private User user;
+
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public UserCustom getUserCustom() {
 		return userCustom;

@@ -1,8 +1,4 @@
 package cn.itcast.ssm.mapper;
-
-import java.util.List;
-
-import cn.itcast.ssm.po.UserCustom;
 import cn.itcast.ssm.po.UserLoginVo;
 
 /**
@@ -13,5 +9,9 @@ import cn.itcast.ssm.po.UserLoginVo;
 public interface UserLoginMapper {
 	
 	public Integer findLoginMessageList(UserLoginVo loginVo)throws Exception;
+	
+	
+	public Integer findCountByLoginUser(String username, String password);
+
 
 }

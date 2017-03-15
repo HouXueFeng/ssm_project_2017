@@ -44,7 +44,7 @@ public class LoginController {
 			model.addAttribute("msg", "输入有误");
 		
 		}
-		return "login1";
+		return "login11";
 	}
 
 	@RequestMapping("/logout")
