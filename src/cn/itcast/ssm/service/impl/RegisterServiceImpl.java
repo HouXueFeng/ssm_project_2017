@@ -41,18 +41,18 @@ public class RegisterServiceImpl implements RegisterService {
 	 */
 	@Override
 	public Integer findCountByLoginUser(UserLoginVo loginVo) throws Exception {
-		while (!(loginVo.getUserCustom().getUsername().equals(""))
-				|| !(loginVo.getUserCustom().getPassword().equals(""))
-				|| !(loginVo.getUserCustom().getUser_trueName().equals(""))
-				|| !(loginVo.getUser().getAddress().equals(""))) {
+		while ((loginVo.getUserCustom().getUsername().equals(""))
+				|| (loginVo.getUserCustom().getPassword().equals(""))
+				|| (loginVo.getUserCustom().getUser_trueName().equals(""))
+				|| (loginVo.getUser().getAddress().equals(""))) {
+			return 1;
+			}
 			Integer integer = userRegisterMapper.findCountByLoginUser(loginVo);
-			if (integer == null || integer == 0 || integer.equals("")) {
+			if (integer == null || integer == 0 ) {
 				return integer;
 
 			} else {
 				return integer;
-			}
 		}
-		return 1;
 	}
 }
