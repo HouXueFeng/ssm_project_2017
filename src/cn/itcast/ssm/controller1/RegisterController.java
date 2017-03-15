@@ -30,13 +30,14 @@ public class RegisterController {
 	@RequestMapping("/register")
 	public String register(HttpServletRequest request, Model model, HttpSession httpSession, UserLoginVo loginVo)
 			throws Exception {
+		
+		//首先查询username是否存在（username为主键）
 		Integer integer = registerService.findCountByLoginUser(loginVo);
 
+		
+		//是否存在
 		if (integer == 0) {
-
 			registerService.RegisterUser(loginVo);
-
-
 			return "login11";
 		} else {
 			httpSession.setAttribute("message1", "注册不成功，请核实注册信息！");

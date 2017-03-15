@@ -20,27 +20,39 @@ public class RegisterServiceImpl implements RegisterService {
 	@Autowired
 	private UserRegisterMapper userRegisterMapper;
 
+	
+	//进行注册service
 	@Override
 	public void RegisterUser(UserLoginVo loginVo) throws Exception {
+		if (loginVo.getUserCustom().getUsername() != null || !(loginVo.getUserCustom().getUsername().equals(""))) {
 
-		userRegisterMapper.RegisterUser(loginVo);
-		userRegisterMapper.RegisterUser1(loginVo);
-		System.out.println(loginVo.getUserCustom().getLogin_user_id());
-
-	}
-
-	@Override
-	public Integer findCountByLoginUser(UserLoginVo loginVo) throws Exception {
-		 Integer integer = userRegisterMapper.findCountByLoginUser(loginVo);
-		if (integer == null||integer==0) {
-			return integer;
-
-		} else {
-			return integer;
+			// 一个serives调用两个mapper
+			userRegisterMapper.RegisterUser(loginVo);
+			userRegisterMapper.RegisterUser1(loginVo);
+			System.out.println(loginVo.getUserCustom().getLogin_user_id());
+			//看是否能可以拿到uuid（）
 		}
 	}
 
+	/**
+	 * 这里判断了注册时输入空值的情况
+	 *  若输入注册的某个信息为空则 
+	 *  暴力返回已经存在了用户已经存在空值的情况即返回!=0
+	 */
+	@Override
+	public Integer findCountByLoginUser(UserLoginVo loginVo) throws Exception {
+		while (!(loginVo.getUserCustom().getUsername().equals(""))
+				|| !(loginVo.getUserCustom().getPassword().equals(""))
+				|| !(loginVo.getUserCustom().getUser_trueName().equals(""))
+				|| !(loginVo.getUser().getAddress().equals(""))) {
+			Integer integer = userRegisterMapper.findCountByLoginUser(loginVo);
+			if (integer == null || integer == 0 || integer.equals("")) {
+				return integer;
 
-
-	
+			} else {
+				return integer;
+			}
+		}
+		return 1;
+	}
 }

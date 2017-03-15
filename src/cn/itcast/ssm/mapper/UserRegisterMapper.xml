@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.itcast.ssm.mapper.UserRegisterMapper">
-
-
+	<!-- username为主键，所以注册时查询主键是否存在即可 -->
 	<sql id="select_count">
 		<if test="userCustom!=null">
 			<if test="userCustom.username!=null and userCustom.username!='' ">
@@ -26,10 +25,14 @@
 
 
 	<insert id="RegisterUser" parameterType="cn.itcast.ssm.po.UserLoginVo">
-		insert into user (username)values(#{userCustom.username})
-
-
-
+		<if test="userCustom!=null and user!=null">
+			<if
+				test="userCustom.username!=null and userCustom.username!=''  and user.address!=null and user.address!='' ">
+				insert into user
+				(username,address)values(#{userCustom.username},#{user.address})
+			</if>
+		</if>
+		<!-- 通过主外键的关系，分别插入注册信息到两个表中 這裡將自動生成的id，插入到關聯表中 这样就可以在注册的同时在主表（用户表中插入注册的信息） -->
 		<selectKey keyProperty="userCustom.login_user_id" order="AFTER"
 			resultType="java.lang.Integer">
 			SELECT LAST_INSERT_ID();
@@ -37,9 +40,14 @@
 
 	</insert>
 	<insert id="RegisterUser1" parameterType="cn.itcast.ssm.po.UserLoginVo">
+		<if test="userCustom!=null">
 
-		insert into login_user
-		(login_user_id,username,password,user_trueName)values(#{userCustom.login_user_id},#{userCustom.username},#{userCustom.password},#{userCustom.user_trueName})
+			<if
+				test="userCustom.username!=null and userCustom.username!='' and userCustom.password!=null and userCustom.password!='' and userCustom.user_trueName!='' and userCustom.user_trueName!=null ">
+				insert into login_user
+				(login_user_id,username,password,user_trueName)values(#{userCustom.login_user_id},#{userCustom.username},#{userCustom.password},#{userCustom.user_trueName})
+			</if>
+		</if>
 	</insert>
 
 
